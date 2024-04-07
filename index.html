@@ -7,35 +7,32 @@
             let textInput = document.getElementById('textInput').value;
             let resultDiv = document.getElementById('result');
             let frequencyCounter = {};
-        
+            
             for (let i = 0; i < textInput.length; i++) {
                 if (textInput[i].match(/[a-z]/i)) {   
                     let character = textInput[i].toLowerCase();    
-                    frequencyCounter[character] = 0;
-                }
-            }
-        
-            for (let i = 0; i < textInput.length; i++) {
-                if (textInput[i].match(/[a-z]/i)) {
-                    let character = textInput[i].toLowerCase();
-                    frequencyCounter[character] += 1;
+                    frequencyCounter[character] = (frequencyCounter[character] || 0) + 1;  
                 }
             }
 
+            let sortedKeys = Object.keys(frequencyCounter).sort(function(a,b){return frequencyCounter[b]-frequencyCounter[a]});
+
             let outputString = '';
-            for (let character in frequencyCounter) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                let character = sortedKeys[i];
                 let frequency = frequencyCounter[character];
                 let percentage = (frequency / textInput.length) * 100;
                 outputString += character + ": " + frequency + " (" + percentage.toFixed(2) + "%)<br/>";
             }
+
             resultDiv.innerHTML = outputString;
         }
     </script>
 </head>
 <body>
     <h2>Character Frequency Counter</h2>
-    <textarea id="textInput" rows="4" cols="50"></textarea><br/>
-    <button onclick="calculateFrequency()">Calculate Frequency</button>
-    <div id="result" style="margin-top: 20px;"></div>
+    <textarea id='textInput' rows='4' cols='50'></textarea><br/>
+    <button onclick='calculateFrequency()'>Calculate Frequency</button>
+    <div id='result' style='margin-top: 20px;'></div>
 </body>
 </html>
